@@ -600,6 +600,13 @@ const PINNED_DEPS = [
       '"request ended without sending any chunks", taking down the AI assistant + invoice OCR. ' +
       'Keep 0.29.1 until 0.32.x streaming is verified against Bedrock.',
   },
+  {
+    name: 'nodemailer',
+    version: '9.0.5',
+    reason:
+      'SMTP mailer for self-hosts (extensions/general/email/lib/smtp-service.ts). Zero-dependency MIT-0 ' +
+      'package on the outbound-mail path; bumps are deliberate, reviewed PRs (audit surface), never silent.',
+  },
 ]
 
 const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')

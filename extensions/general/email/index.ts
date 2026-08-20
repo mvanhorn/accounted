@@ -3,7 +3,7 @@ import type { Extension } from '@/lib/extensions/types'
 import { registerEmailService } from '@/lib/email/service'
 import { createServiceClientNoCookies } from '@/lib/auth/api-keys'
 import { createLogger } from '@/lib/logger'
-import { ResendEmailService } from './lib/resend-service'
+import { createEmailService } from './lib/email-provider'
 import {
   ResendDeliverySignatureError,
   isDeliveryWebhookConfigured,
@@ -11,14 +11,16 @@ import {
   verifyDeliveryWebhook,
 } from './lib/delivery-webhook'
 
-// Register the Resend implementation immediately when this extension is loaded
-registerEmailService(new ResendEmailService())
+// Register the implementation for this deployment immediately when the
+// extension is loaded: Resend (hosted default) or SMTP (EMAIL_PROVIDER=smtp,
+// the sovereign self-host path). See lib/email-provider.ts for precedence.
+registerEmailService(createEmailService())
 
 const log = createLogger('email-delivery-webhook')
 
 export const emailExtension: Extension = {
   id: 'email',
-  name: 'E-post (Resend)',
+  name: 'E-post',
   version: '1.0.0',
 
   apiRoutes: [
